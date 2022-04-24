@@ -4,6 +4,10 @@ const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
 const Forbidden = require('../errors/Forbidden');
 const CastError = require('../errors/CastError');
+const {
+  ERR_VE, ERR_CE_MOVIE, ERR_NFE_MOVIE,
+  ERR_FORB, ERR_CE, MOVIE_DELETION_CONFIRMATION,
+} = require('../utils/constants');
 
 const getMovies = (req, res, next) => {
   Movie.find({})
@@ -17,17 +21,8 @@ const getMovies = (req, res, next) => {
 
 const createMovie = (req, res, next) => {
   const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
+    country, director, duration, year, description,
+    image, trailerLink, nameRU, nameEN, thumbnail, movieId,
   } = req.body;
   Movie.create({
     country,
@@ -48,9 +43,9 @@ const createMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Переданы неккоретные данные'));
-      } else if (err.name === 'MongoServerError' && err.code === 11000) {
-        next(new ConflictError('Такой фильм уже существует'));
+        next(new ValidationError(ERR_VE));
+      } else if (err.code === 11000) {
+        next(new ConflictError(ERR_CE_MOVIE));
       } else {
         next(err);
       }
@@ -61,21 +56,20 @@ const deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
   Movie.findById(movieId)
     .orFail(() => {
-      throw new NotFoundError('Фильм с указанным _id не найден');
+      throw new NotFoundError(ERR_NFE_MOVIE);
     })
     .then((movie) => {
-      if (String(req.user._id) === String(movie.owner)) {
-        Movie.findByIdAndRemove(movie._id)
-          .then(() => {
-            res.send({ message: 'Фильм успешно удален!' });
-          });
-      } else {
-        throw new Forbidden('Нет прав на удаление карточки');
+      if (String(req.user._id) !== String(movie.owner)) {
+        throw new Forbidden(ERR_FORB);
       }
+      return Movie.findByIdAndRemove(movie._id);
+    })
+    .then(() => {
+      res.send({ message: MOVIE_DELETION_CONFIRMATION });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new CastError('Переданы неккоретные данные'));
+        next(new CastError(ERR_CE));
       } else {
         next(err);
       }

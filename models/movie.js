@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { WRONG_URL_IMG, WRONG_URL_TRAILER, WRONG_URL_SMALLIMG } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -27,7 +28,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.isURL(v),
-      message: () => 'Неверный формат ссылки на изображение',
+      message: () => WRONG_URL_IMG,
     },
   },
   trailerLink: {
@@ -35,7 +36,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.isURL(v),
-      message: () => 'Неверный формат ссылки на трейлер',
+      message: () => WRONG_URL_TRAILER,
     },
   },
   thumbnail: {
@@ -43,7 +44,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => validator.isURL(v),
-      message: () => 'Неверный формат ссылки на миниатюрное изображение',
+      message: () => WRONG_URL_SMALLIMG,
     },
   },
   owner: {

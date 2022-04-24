@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { WRONG_EMAIL } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -8,7 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: (v) => validator.isEmail(v),
-      message: () => 'Неверный формат почты',
+      message: () => WRONG_EMAIL,
     },
   },
   password: {
