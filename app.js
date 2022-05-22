@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const singleRouter = require('./routes/singleRouter');
 const corsHandler = require('./middlewars/cors');
@@ -11,7 +12,7 @@ const ratelimiter = require('./middlewars/rateLimiter');
 const { requestLogger, errorLogger } = require('./middlewars/logger');
 const { MONGO_SERVER } = require('./utils/constants');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
@@ -21,7 +22,8 @@ app.use(requestLogger);
 
 app.use(ratelimiter);
 
-app.use(corsHandler);
+app.use(cors());
+/* app.use(corsHandler); */
 
 mongoose.connect(MONGO_SERVER);
 

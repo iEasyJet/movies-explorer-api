@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const { WRONG_URL_IMG, WRONG_URL_TRAILER, WRONG_URL_SMALLIMG } = require('../utils/constants');
+const { WRONG_URL_IMG, WRONG_URL_TRAILER } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -16,7 +16,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   year: {
-    type: Number,
+    type: String,
     required: true,
   },
   description: {
@@ -37,14 +37,6 @@ const movieSchema = new mongoose.Schema({
     validate: {
       validator: (v) => validator.isURL(v),
       message: () => WRONG_URL_TRAILER,
-    },
-  },
-  thumbnail: {
-    type: String,
-    required: true,
-    validate: {
-      validator: (v) => validator.isURL(v),
-      message: () => WRONG_URL_SMALLIMG,
     },
   },
   owner: {
