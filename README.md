@@ -27,4 +27,4 @@
 
   * `Публичный ip 51.250.69.135`
 
-  * `Домен api.diploma.easyjet.nomoredomains.work`
+  * `Домен https://api.easyjet.nomoredomains.work`
