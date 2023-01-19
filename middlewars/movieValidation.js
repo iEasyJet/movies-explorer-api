@@ -23,12 +23,6 @@ const createMovieValidation = celebrate({
     }),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    thumbnail: Joi.string().required().custom((value, helpers) => {
-      if (validator.isURL(value)) {
-        return value;
-      }
-      return helpers.message(WRONG_URL);
-    }),
     movieId: Joi.number().required(),
   }),
 });
