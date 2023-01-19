@@ -34,7 +34,6 @@ const createMovie = (req, res, next) => {
     trailerLink,
     nameRU,
     nameEN,
-    thumbnail,
     movieId,
     owner: req.user._id,
   })

@@ -39,14 +39,6 @@ const movieSchema = new mongoose.Schema({
       message: () => WRONG_URL_TRAILER,
     },
   },
-  thumbnail: {
-    type: String,
-    required: true,
-    validate: {
-      validator: (v) => validator.isURL(v),
-      message: () => WRONG_URL_SMALLIMG,
-    },
-  },
   owner: {
     required: true,
     type: mongoose.Schema.Types.ObjectId,
