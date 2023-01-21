@@ -30,4 +30,4 @@
 
 ### `Статус проекта:` <kbd>Сдан</kbd>
 
-- `Домен api.diploma.easyjet.nomoredomains.work`
+[gh-pages](https://ieasyjet.github.io/movies-explorer-frontend/#/)
